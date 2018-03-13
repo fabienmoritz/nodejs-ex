@@ -92,13 +92,13 @@ body {
                   if (replacement.length < placeholderLength) {
                       replacement = replacement + Array(placeholderLength - replacement.length).join("@");
                   }
-                  monkeyContent = regex.replace(monkeyContent, replacement);
+                  monkeyContent = monkeyContent.replace(regex, replacement);
               } else {
                   replacement = sizeLines[lineIdx - 1] + "  ";
                   if (replacement.length < placeholderLength) {
                       replacement = replacement + Array(placeholderLength - replacement.length).join("@");
                   }
-                  monkeyContent = regex.replace(monkeyContent, replacement);
+                  monkeyContent = monkeyContent.replace(regex, replacement);
               }
           }
           document.getElementById("monkey-content").innerHTML = monkeyContent;
