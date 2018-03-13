@@ -2,7 +2,8 @@
 var express = require('express'),
     app     = express(),
     morgan  = require('morgan'),
-    userHashes = require('./userHashes');
+    userHashes = require('./userHashes'),
+    crypto = require('crypto');
     
 Object.assign = require('object-assign');
 
@@ -116,20 +117,26 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-app.get('/tshirtResults', function (req, res) {
+app.get('/tshirtResults/:secret', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
     initDb( err => console.error("erreur à l'init db", err) );
   }
-  if (db) {
-    db.collection('contributeurTshirt').find({}).toArray(function (err, result) {
-      if (err) {
-        res.send('{ error: ' + JSON.stringify(err) + ' }');
-      } else {
-        res.send(JSON.stringify(result));
-      }
-    });
+  if (db && req.params.secret) {
+    const hash = crypto.createHash('sha1').update(req.params.secret).digest("hex");
+    if (hash === "b544a712bf9510432b3858bbd06458b170455b87") {
+      db.collection('contributeurTshirt').find({}).toArray(function (err, result) {
+          if (err) {
+              res.send('{ error: ' + JSON.stringify(err) + ' }');
+          } else {
+              res.send(JSON.stringify(result));
+          }
+      });
+    } else {
+      console.log("wrong secret", req.params.secret, hash);
+      res.send('{ error: "wrong secret" }');
+    }
   } else {
     res.send('{ error: "db down" }');
   }
