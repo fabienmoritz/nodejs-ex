@@ -125,7 +125,7 @@ app.get('/tshirtResults/:secret', function (req, res) {
   }
   if (db && req.params.secret) {
     const hash = crypto.createHash('sha1').update(req.params.secret).digest("hex");
-    if (hash === "b544a712bf9510432b3858bbd06458b170455b87") {
+    if (hash === "0069c5178851e22ea77a3a5094c4048374a9269d") {
       db.collection('contributeurTshirt').find({}).toArray(function (err, result) {
           if (err) {
               res.send('{ error: ' + JSON.stringify(err) + ' }');
@@ -193,7 +193,7 @@ app.get('/tshirt/:secret/:size', function (req, res) {
         res.render('index.html', { serverMessage : "ça n'a pas marché, désolé... Vous voulez bien réessayer un peu plus tard ?"});
       } else {
          console.info("contributeur mis à jour", secret, size, result);
-         if (result.result.nModified === 1) {
+         if (result.result.n === 1) {
            res.render('index.html', { serverMessage : false});
          } else {
            console.info("contributeur inconnu", secret, err);
