@@ -15,6 +15,10 @@ body {
   font-size: 14px;
   line-height: 1.4;
 }
+a {
+  color: inherit;
+  text-decoration: underline;
+}
 
 </style>
 
@@ -38,22 +42,22 @@ body {
         "| |  | |",
         "|_|  |_|"],
 
-    L: [" _      ",
-        "| |     ",
+    L: [" _  @@@@",
+        "| |   @@",
         "| |     ",
         "| |     ",
         "| |____ ",
         "|______|"],
 
-    XL:["__   ___      ",
-        "\\ \\ / / |     ",
+    XL:["__   ___  @@@@",
+        "\\ \\ / / |   @@",
         " \\ V /| |     ",
         "  > < | |     ",
         " / . \\| |____ ",
         "/_/ \\_\\______|"],
 
-    XXL:["__   ____   ___      ",
-         "\\ \\ / /\\ \\ / / |     ",
+    XXL:["__   ____   ___  @@@@",
+         "\\ \\ / /\\ \\ / / |   @@",
          " \\ V /  \\ V /| |     ",
          "  > <    > < | |     ",
          " / . \\  / . \\| |____ ",
@@ -101,7 +105,12 @@ body {
                   monkeyContent = monkeyContent.replace(regex, replacement);
               }
           }
-          document.getElementById("monkey-content").innerHTML = monkeyContent;
+          var monkeySpan = document.getElementById("monkey-content");
+          monkeySpan.innerHTML = monkeyContent;
+
+          var confirmation = document.getElementById("confirmation");
+          document.querySelectorAll("#confirmation a")[0].href = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
+          confirmation.style.display = "block";
       }
   }
 
@@ -237,7 +246,9 @@ body {
   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&%%%&&&&%%%%%#%%%&&%%%#%@@@@@@@@@
   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%&%%&%%%%&&%%%%%%%%@@@@@@@@@
   </span></code>
-
+  <p id="confirmation" style="display: none;">
+    Nous avons enregistré votre choix. Si vous souhaitez le modifier, <a href=''>cliquez ici</a>.
+  </p>
 <% } %>
 </body>
 </html>
