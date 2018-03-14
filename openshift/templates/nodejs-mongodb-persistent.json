@@ -32,6 +32,17 @@
         "database-admin-password" : "${DATABASE_ADMIN_PASSWORD}"
       }
     },
+      {
+        "kind": "Secret",
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "email-config"
+        },
+        "stringData": {
+          "gmail-user": "${GMAIL_USER}",
+          "gmail-password": "${GMAIL_PWD}"
+        }
+      },
     {
       "kind": "Service",
       "apiVersion": "v1",
@@ -231,6 +242,24 @@
                       "secretKeyRef" : {
                         "name" : "${NAME}",
                         "key" : "database-admin-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "GMAIL_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "email-config",
+                        "key" : "gmail-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "GMAIL_PWD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "email-config",
+                        "key" : "gmail-password"
                       }
                     }
                   }
@@ -538,6 +567,17 @@
       "description": "Password for the database admin user.",
       "generate": "expression",
       "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "GMAIL_USER",
+      "displayName": "Gmail username",
+      "description": "without @gmail.com",
+      "required": true
+    },
+    {
+      "name": "GMAIL_PWD",
+      "displayName": "Gmail password",
+      "required": true
     },
     {
       "name": "NPM_MIRROR",
